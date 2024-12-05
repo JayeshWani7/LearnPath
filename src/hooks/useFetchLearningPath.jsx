@@ -5,7 +5,7 @@ const useFetchLearningPath = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+  const apiKey = "AIzaSyB4_dQgj8NzxMCF3sqRaNHWev4wOnfG1jQ";
   const genAI = new GoogleGenerativeAI(apiKey);
 
   const model = genAI.getGenerativeModel({

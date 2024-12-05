@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import LearningPathGenerator from "./components/LearningPathGenerator";
 
+
 function App() {
   return (
     <div className="App">

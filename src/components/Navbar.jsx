@@ -1,10 +1,27 @@
 import React, { useState } from "react";
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLoginSuccess = (credentialResponse) => {
+    console.log("Login Successful:", credentialResponse);
+    // Simulating storing user data for now (you can decode JWT for more details)
+    setUser(credentialResponse);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    googleLogout(); // Clears the session
+    setIsAuthenticated(false);
+    setUser(null);
+    console.log("Logged out successfully");
   };
 
   return (
@@ -34,6 +51,23 @@ const Navbar = () => {
             <a href="#contact" className="hover:text-yellow-400 transition-colors duration-300">
               Build your path
             </a>
+          </li>
+          <li>
+            {isAuthenticated ? (
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-300"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            )}
           </li>
         </ul>
 
