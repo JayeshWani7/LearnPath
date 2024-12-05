@@ -16,7 +16,6 @@ const About = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Feature 1 */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h3 className="text-xl font-semibold text-blue-600 mb-4">
               Personalized Learning Paths
@@ -28,7 +27,6 @@ const About = () => {
             </p>
           </div>
 
-          {/* Feature 2 */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h3 className="text-xl font-semibold text-blue-600 mb-4">
               AI-Powered Recommendations
@@ -39,7 +37,6 @@ const About = () => {
             </p>
           </div>
 
-          {/* Feature 3 */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h3 className="text-xl font-semibold text-blue-600 mb-4">
               Progress Tracking

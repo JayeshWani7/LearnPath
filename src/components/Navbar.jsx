@@ -1,38 +1,47 @@
 import React, { useState } from "react";
-import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import { signInWithPopup, signOut, googleProvider, auth } from "./firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
 const Navbar = ({ onAuthChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const handleLoginSuccess = (credentialResponse) => {
-    console.log("Login Successful:", credentialResponse);
+  const handleLoginSuccess = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      setUser(user);
+      setIsAuthenticated(true);
+      onAuthChange(true, user);
 
-    // Simulating user data for now
-    setUser(credentialResponse);
-    setIsAuthenticated(true);
+      // Store user data in Firestore
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      });
 
-    // Notify parent component
-    if (typeof onAuthChange === "function") {
-      onAuthChange(true);
+      console.log("Login Successful:", user);
+    } catch (error) {
+      console.error("Login Failed:", error.message);
     }
   };
 
-  const handleLogout = () => {
-    googleLogout();
-    setIsAuthenticated(false);
-    setUser(null);
-
-    // Notify parent component
-    if (typeof onAuthChange === "function") {
-      onAuthChange(false);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsAuthenticated(false);
+      setUser(null);
+      onAuthChange(false, null);
+      console.log("Logged out successfully");
+    } catch (error) {
+      console.error("Logout Failed:", error.message);
     }
-    console.log("Logged out successfully");
   };
 
   return (
@@ -43,26 +52,10 @@ const Navbar = ({ onAuthChange }) => {
         </div>
 
         <ul className="hidden md:flex space-x-8 text-lg font-medium">
-          <li>
-            <a href="#home" className="hover:text-yellow-400 transition-colors duration-300">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="#about" className="hover:text-yellow-400 transition-colors duration-300">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="#features" className="hover:text-yellow-400 transition-colors duration-300">
-              Features
-            </a>
-          </li>
-          <li>
-            <a href="#contact" className="hover:text-yellow-400 transition-colors duration-300">
-              Build your path
-            </a>
-          </li>
+          <li><a href="#home" className="hover:text-yellow-400">Home</a></li>
+          <li><a href="#about" className="hover:text-yellow-400">About</a></li>
+          <li><a href="#features" className="hover:text-yellow-400">Features</a></li>
+          <li><a href="#contact" className="hover:text-yellow-400">Contact</a></li>
           <li>
             {isAuthenticated ? (
               <button
@@ -72,22 +65,18 @@ const Navbar = ({ onAuthChange }) => {
                 Sign Out
               </button>
             ) : (
-              <GoogleLogin
-                onSuccess={handleLoginSuccess}
-                onError={() => console.log("Login Failed")}
-              />
+              <button
+                onClick={handleLoginSuccess}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-300"
+              >
+                Sign In with Google
+              </button>
             )}
           </li>
         </ul>
 
         <button className="md:hidden focus:outline-none" onClick={toggleMenu}>
-          <svg
-            className="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {isMenuOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             ) : (
@@ -96,15 +85,6 @@ const Navbar = ({ onAuthChange }) => {
           </svg>
         </button>
       </div>
-
-      {isMenuOpen && (
-        <ul className="md:hidden bg-blue-800 space-y-4 py-4 text-center text-lg font-medium">
-          <li><a href="#home" className="block hover:text-yellow-400 transition-colors duration-300">Home</a></li>
-          <li><a href="#about" className="block hover:text-yellow-400 transition-colors duration-300">About</a></li>
-          <li><a href="#features" className="block hover:text-yellow-400 transition-colors duration-300">Features</a></li>
-          <li><a href="#contact" className="block hover:text-yellow-400 transition-colors duration-300">Contact</a></li>
-        </ul>
-      )}
     </nav>
   );
 };
