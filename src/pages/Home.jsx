@@ -1,4 +1,5 @@
 import React from "react";
+import image from "../pages/learning-path.jpg";
 
 const Home = () => {
   return (
@@ -25,7 +26,7 @@ const Home = () => {
 
         <div className="mt-8 md:mt-0 md:w-1/2">
           <img
-            src="https://www.google.com/url?sa=i&url=https%3A%2F%2Felearningindustry.com%2F7-tips-create-personal-learning-paths-elearning&psig=AOvVaw3kGpHtGL8N9D7FftPyRdkN&ust=1733480810049000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPi8qb61kIoDFQAAAAAdAAAAABAJ"
+            src={image}
             alt="AI Learning Path Illustration"
             className="w-full md:w-3/4 mx-auto rounded-xl shadow-2xl transition-transform transform hover:scale-105 duration-500"
           />
