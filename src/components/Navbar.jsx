@@ -32,7 +32,7 @@ const Navbar = () => {
           </li>
           <li>
             <a href="#contact" className="hover:text-yellow-400 transition-colors duration-300">
-              Contact
+              Build your path
             </a>
           </li>
         </ul>

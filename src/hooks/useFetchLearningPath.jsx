@@ -17,10 +17,10 @@ const useFetchLearningPath = () => {
     topP: 0.95,
     topK: 40,
     maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
+    responseMimeType: "application/json",
   };
 
-  const fetchLearningPath = async ({ skills, targetRole }) => {
+  const fetchLearningPath = async ({ levelOfExperience, targetRole }) => {
     setLoading(true);
     setError(null);
 
@@ -32,7 +32,18 @@ const useFetchLearningPath = () => {
             role: "user",
             parts: [
               {
-                text: `generate a learning path for student who has knowledge of ${skills} and is targeting for the role of ${targetRole}`,
+                text: `You are a Career Counsellor. Suggest a person a learning path in JSON format with the following structure:
+                {
+                  "learningPath": [
+                    {
+                      "title": "Phase Title",
+                      "duration": "Duration",
+                      "resources": ["Resource1", "Resource2"],
+                      "description": "Phase Description"
+                    }
+                  ]
+                } 
+                The learning path should help someone aiming for ${targetRole} with ${levelOfExperience} level of experience.`,
               },
             ],
           },
@@ -41,48 +52,21 @@ const useFetchLearningPath = () => {
 
       const result = await chatSession.sendMessage("");
       const responseText = await result.response.text();
-      console.log("Response text:", responseText);
-      // Parse response into structured format
-      const learningPath = responseText
-        .split("\n\n") // Split by double newlines to separate sections
-        .filter((section) => section.trim() !== "") // Remove empty sections
-        .map((section, index) => {
-          // Break section into lines
-          const lines = section.split("\n").map((line) => line.trim());
-          
-          // Extract the main heading
-          const mainHeading = lines.find((line) => line.startsWith("#"));
-          
-          // Extract subheadings
-          const subHeadings = lines
-            .filter((line) => line.startsWith("**") && line.endsWith("**"))
-            .map((line) => line.slice(2, -2).trim()); // Remove '**' markers
-          
-          // Extract plain text
-          const bodyText = lines.filter(
-            (line) =>
-              !line.startsWith("#") &&
-              !(line.startsWith("**") && line.endsWith("**"))
-          );
+      const learningPathData = JSON.parse(responseText);
 
-          return {
-            title: `Step ${index + 1}: ${mainHeading ? mainHeading.slice(1).trim() : "No Title"}`, // Remove '#' and trim
-            subHeadings: subHeadings, // Array of subheadings
-            description: bodyText.join(" "), // Combine plain text into a single description
-          };
-        });
-
-      return learningPath;
-      
+      if (learningPathData && learningPathData.learningPath) {
+        return learningPathData.learningPath;
+      } else {
+        throw new Error("Invalid response structure from the API");
+      }
     } catch (err) {
       console.error("Error fetching learning path:", err);
       setError("Failed to generate learning path. Please try again.");
-      throw err;
+      return null;
     } finally {
       setLoading(false);
     }
   };
-  
 
   return { fetchLearningPath, loading, error };
 };
