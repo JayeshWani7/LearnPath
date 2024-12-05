@@ -21,9 +21,7 @@ const LearningPathGenerator = () => {
 
   return (
     <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg">
-      {/* Form Section */}
       <form onSubmit={handleSubmit} className="space-y-4 mb-6">
-        {/* Target Role Input */}
         <input
           type="text"
           name="targetRole"
@@ -34,7 +32,6 @@ const LearningPathGenerator = () => {
           required
         />
 
-        {/* Level of Experience Dropdown */}
         <select
           name="levelOfExperience"
           value={formData.levelOfExperience}
@@ -47,7 +44,6 @@ const LearningPathGenerator = () => {
           <option value="Advanced">Advanced</option>
         </select>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -58,7 +54,6 @@ const LearningPathGenerator = () => {
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
 
-      {/* Learning Path Display */}
       {learningPath.length === 0 ? (
         !loading && (
           <div className="text-center text-gray-600 mt-10">
