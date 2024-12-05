@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useFetchLearningPath from "../hooks/useFetchLearningPath";
 
-const LearningPathGenerator = () => {
+const LearningPathGenerator = ({ isAuthenticated }) => {
   const [formData, setFormData] = useState({ targetRole: "", levelOfExperience: "Basic" });
   const [learningPath, setLearningPath] = useState([]);
   const { fetchLearningPath, loading, error } = useFetchLearningPath();
@@ -13,6 +13,12 @@ const LearningPathGenerator = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isAuthenticated) {
+      alert("Please log in to generate a learning path.");
+      return;
+    }
+
     const generatedPath = await fetchLearningPath(formData);
     if (generatedPath) {
       setLearningPath(generatedPath);
@@ -62,9 +68,7 @@ const LearningPathGenerator = () => {
         )
       ) : (
         <div className="p-6 bg-gray-50 rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-            Learning Path
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Learning Path</h1>
           {learningPath.map((phase, index) => (
             <div key={index} className="mb-8 p-6 border rounded-lg bg-white shadow hover:shadow-md transition-shadow">
               <h2 className="text-2xl font-semibold text-gray-700 mb-2">{phase.title}</h2>

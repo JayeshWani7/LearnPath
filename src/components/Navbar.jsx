@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
 
-const Navbar = () => {
+const Navbar = ({ onAuthChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
@@ -12,15 +12,26 @@ const Navbar = () => {
 
   const handleLoginSuccess = (credentialResponse) => {
     console.log("Login Successful:", credentialResponse);
-    // Simulating storing user data for now (you can decode JWT for more details)
+
+    // Simulating user data for now
     setUser(credentialResponse);
     setIsAuthenticated(true);
+
+    // Notify parent component
+    if (typeof onAuthChange === "function") {
+      onAuthChange(true);
+    }
   };
 
   const handleLogout = () => {
-    googleLogout(); // Clears the session
+    googleLogout();
     setIsAuthenticated(false);
     setUser(null);
+
+    // Notify parent component
+    if (typeof onAuthChange === "function") {
+      onAuthChange(false);
+    }
     console.log("Logged out successfully");
   };
 
@@ -63,9 +74,7 @@ const Navbar = () => {
             ) : (
               <GoogleLogin
                 onSuccess={handleLoginSuccess}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
+                onError={() => console.log("Login Failed")}
               />
             )}
           </li>

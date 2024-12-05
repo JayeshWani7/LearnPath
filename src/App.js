@@ -3,12 +3,18 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import LearningPathGenerator from "./components/LearningPathGenerator";
+import { useState } from "react";
 
 
-function App() {
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleAuthChange = (authStatus) => {
+    setIsAuthenticated(authStatus);
+  };
   return (
     <div className="App">
-      <Navbar />
+      <Navbar onAuthChange={handleAuthChange} />
 
       {/* Main Content */}
       <main>
@@ -27,7 +33,7 @@ function App() {
             >
               Build Your Personalized Learning Path
             </h2>
-            <LearningPathGenerator />
+            <LearningPathGenerator isAuthenticated={isAuthenticated} />
           </div>
         </section>
       </main>
