@@ -55,7 +55,7 @@ const Navbar = ({ onAuthChange }) => {
           <li><a href="#home" className="hover:text-yellow-400">Home</a></li>
           <li><a href="#about" className="hover:text-yellow-400">About</a></li>
           <li><a href="#features" className="hover:text-yellow-400">Features</a></li>
-          <li><a href="#contact" className="hover:text-yellow-400">Contact</a></li>
+          <li><a href="#contact" className="hover:text-yellow-400">Build Your Path</a></li>
           <li>
             {isAuthenticated ? (
               <button
@@ -67,7 +67,7 @@ const Navbar = ({ onAuthChange }) => {
             ) : (
               <button
                 onClick={handleLoginSuccess}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-300"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition-colors duration-300"
               >
                 Sign In with Google
               </button>

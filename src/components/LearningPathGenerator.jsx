@@ -27,38 +27,49 @@ const LearningPathGenerator = ({ isAuthenticated }) => {
 
   return (
     <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <form onSubmit={handleSubmit} className="space-y-4 mb-6">
-        <input
-          type="text"
-          name="targetRole"
-          value={formData.targetRole}
-          onChange={handleInputChange}
-          placeholder="Enter your Target Role"
-          className="w-full p-2 border rounded"
-          required
-        />
+  <form onSubmit={handleSubmit} className="space-y-4 mb-6">
+    {/* Label for Target Role */}
+    <label htmlFor="targetRole" className="block text-gray-700 font-medium">
+      Target Role
+    </label>
+    <input
+      type="text"
+      id="targetRole"
+      name="targetRole"
+      value={formData.targetRole}
+      onChange={handleInputChange}
+      placeholder="Enter your Target Role"
+      className="w-full p-2 border rounded"
+      required
+    />
 
-        <select
-          name="levelOfExperience"
-          value={formData.levelOfExperience}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded"
-          required
-        >
-          <option value="Basic">Basic</option>
-          <option value="Intermediate">Intermediate</option>
-          <option value="Advanced">Advanced</option>
-        </select>
+    {/* Label for Level of Experience */}
+    <label htmlFor="levelOfExperience" className="block text-gray-700 font-medium">
+      Level of Experience
+    </label>
+    <select
+      id="levelOfExperience"
+      name="levelOfExperience"
+      value={formData.levelOfExperience}
+      onChange={handleInputChange}
+      className="w-full p-2 border rounded"
+      required
+    >
+      <option value="Basic">Basic</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Advanced">Advanced</option>
+    </select>
 
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          disabled={loading}
-        >
-          {loading ? "Generating..." : "Generate Learning Path"}
-        </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-      </form>
+    {/* Submit Button */}
+    <button
+      type="submit"
+      className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      disabled={loading}
+    >
+      {loading ? "Generating..." : "Generate Learning Path"}
+    </button>
+    {error && <p className="text-red-500 mt-2">{error}</p>}
+  </form>
 
       {learningPath.length === 0 ? (
         !loading && (

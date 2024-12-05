@@ -7,7 +7,7 @@ const About = () => {
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
           About LearnPath
         </h2>
-        <p className="text-gray-700 text-lg leading-relaxed text-center mb-8">
+        <p id="features" className="text-gray-700 text-lg leading-relaxed text-center mb-8">
           LearnPath is an AI-powered tool designed to personalize learning
           journeys for individuals seeking to upskill in their desired fields.
           Using the latest advancements in AI technology, we create tailored

@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import LearningPathGenerator from "./components/LearningPathGenerator";
-
+import ExperienceChatbot from "./components/Chatbot";
 
 
 const App = () => {
@@ -14,6 +14,9 @@ const App = () => {
     setIsAuthenticated(authStatus);
     setUser(userInfo);
   };
+
+  const [levelOfExperience, setLevelOfExperience] = useState("");
+
   return (
     <div className="App">
       <Navbar onAuthChange={handleAuthChange} />
@@ -28,6 +31,14 @@ const App = () => {
             >
               Build Your Personalized Learning Path
             </h2>
+            <div className="container mx-auto p-6">
+              <h1 className="text-2xl font-bold mb-4">Experience Level Determination</h1>
+              {levelOfExperience ? (
+                <p className="text-lg">Your level of experience for targeted role is: {levelOfExperience}</p>
+              ) : (
+                <ExperienceChatbot setLevelOfExperience={setLevelOfExperience} />
+              )}
+            </div>
             <LearningPathGenerator isAuthenticated={isAuthenticated} user={user} />
           </div>
         </section>
