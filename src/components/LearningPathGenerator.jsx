@@ -59,38 +59,37 @@ const LearningPathGenerator = () => {
           </div>
         )
       ) : (
-        <ul className="space-y-4">
-          {learningPath.map((step, index) => (
-            <li
-              key={index}
-              className="p-4 border border-gray-200 rounded-lg bg-gray-50 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-start">
-                <span className="inline-block bg-blue-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">
-                  {index + 1}
-                </span>
-                <div>
-                  {/* Main Heading */}
-                  <h3 className="text-lg font-medium text-gray-800">{step.title}</h3>
-                  
-                  {/* Subheadings */}
-                  {step.subHeadings.length > 0 && (
-                    <ul className="mt-2 pl-6 list-disc text-gray-700">
-                      {step.subHeadings.map((subHeading, subIndex) => (
-                        <li key={subIndex} className="text-sm font-semibold">
-                          {subHeading}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+        <div className="p-6 border border-gray-200 rounded-lg bg-gray-50 space-y-4">
+  {learningPath.map((step, index) => (
+    <div key={index} className="mb-4">
+      {/* Main Heading */}
+      {step.title.startsWith("#") && (
+        <h2 className="text-xl font-bold text-gray-800 mb-2">
+          {step.title.slice(1).trim()}
+        </h2>
+      )}
 
-                  {/* Description */}
-                  <p className="text-sm text-gray-600 mt-2">{step.description}</p>
-                </div>
-              </div>
+      {/* Subheadings */}
+      {step.subHeadings?.length > 0 && (
+        <ul className="pl-6 list-disc text-gray-700">
+          {step.subHeadings.map((subHeading, subIndex) => (
+            <li key={subIndex} className="text-sm font-semibold">
+              {subHeading.startsWith("**")
+                ? subHeading.slice(2, -2).trim()
+                : subHeading}
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Description */}
+      {step.description && (
+        <p className="text-sm text-gray-600 mt-2">{step.description}</p>
+      )}
+    </div>
+  ))}
+</div>
+
 
       )}
     </div>
