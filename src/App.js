@@ -22,7 +22,7 @@ const App = () => {
       <Navbar onAuthChange={handleAuthChange} />
       <main>
         <Home />
-        <About />
+        
         <section id="learning-path-generator" className="py-12 bg-gray-50">
           <div className="container mx-auto px-4">
             <h2
@@ -42,6 +42,7 @@ const App = () => {
             <LearningPathGenerator isAuthenticated={isAuthenticated} user={user} initialExperience={levelOfExperience} />
           </div>
         </section>
+        <About />
       </main>
     </div>
   );
