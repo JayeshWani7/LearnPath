@@ -7,7 +7,7 @@ const ExperienceChatbot = ({ setLevelOfExperience }) => {
 
   const questions = [
     {
-      question: "How comfortable are you with foundational concepts in targeted field?",
+      question: "How comfortable are you with foundational concepts in your field?",
       options: ["Not at all", "Somewhat comfortable", "Very comfortable"],
     },
     {
@@ -17,6 +17,18 @@ const ExperienceChatbot = ({ setLevelOfExperience }) => {
     {
       question: "How confident are you in solving intermediate to advanced challenges?",
       options: ["Not confident", "Moderately confident", "Very confident"],
+    },
+    {
+      question: "How familiar are you with advanced tools or frameworks used in your field?",
+      options: ["Not familiar", "Somewhat familiar", "Very familiar"],
+    },
+    {
+      question: "How often do you mentor or assist others in solving complex problems?",
+      options: ["Rarely", "Sometimes", "Frequently"],
+    },
+    {
+      question: "How often do you engage in continuous learning or skill upgrades?",
+      options: ["Rarely", "Occasionally", "Regularly"],
     },
   ];
 
@@ -31,14 +43,37 @@ const ExperienceChatbot = ({ setLevelOfExperience }) => {
 
   const calculateLevelOfExperience = () => {
     const score = Object.values(answers).reduce((acc, answer) => {
-      if (answer === "Not at all" || answer === "None" || answer === "Not confident") return acc;
-      if (answer === "Somewhat comfortable" || answer === "A few projects" || answer === "Moderately confident") return acc + 1;
-      if (answer === "Very comfortable" || answer === "Multiple significant projects" || answer === "Very confident") return acc + 2;
+      if (
+        answer === "Not at all" ||
+        answer === "None" ||
+        answer === "Not confident" ||
+        answer === "Not familiar" ||
+        answer === "Rarely"
+      )
+        return acc;
+      if (
+        answer === "Somewhat comfortable" ||
+        answer === "A few projects" ||
+        answer === "Moderately confident" ||
+        answer === "Somewhat familiar" ||
+        answer === "Sometimes" ||
+        answer === "Occasionally"
+      )
+        return acc + 1;
+      if (
+        answer === "Very comfortable" ||
+        answer === "Multiple significant projects" ||
+        answer === "Very confident" ||
+        answer === "Very familiar" ||
+        answer === "Frequently" ||
+        answer === "Regularly"
+      )
+        return acc + 2;
       return acc;
     }, 0);
 
-    if (score <= 2) return "Basic";
-    if (score <= 4) return "Intermediate";
+    if (score <= 4) return "Basic";
+    if (score <= 8) return "Intermediate";
     return "Advanced";
   };
 

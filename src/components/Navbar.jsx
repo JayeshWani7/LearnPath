@@ -6,6 +6,7 @@ import { db } from "./firebaseConfig";
 const Navbar = ({ onAuthChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // eslint-disable-next-line
   const [user, setUser] = useState(null);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
