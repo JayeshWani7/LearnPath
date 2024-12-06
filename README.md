@@ -37,9 +37,10 @@ LearnPath Generator is a dynamic web application that creates personalized learn
 ## Tech Stack
 
 - **Frontend**: React, Tailwind CSS
-- **Authentication**: Google OAuth 2.0
-- **API Integration**: Custom Hooks (`useFetchLearningPath`) for fetching learning paths
+- **Authentication**: Firebase Authentication
+- **API Integration**: Custom Hooks (`useFetchLearningPath`) for fetching learning paths from Gemini 1.5 Flash LLM
 - **State Management**: React Hooks (`useState`, `useEffect`)
+- **Database**: Firestore Database is used to store user details
 
 ---
 
@@ -59,9 +60,27 @@ LearnPath Generator is a dynamic web application that creates personalized learn
    ```bash
    npm install
 
-3. Set up Google OAuth:
-  - Create credentials in the Google Cloud Console.
-  - Replace the OAuth client ID in the GoogleLogin component with your credentials.
+1. **Go to Firebase Console**:  
+   Visit the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+
+2. **Enable Authentication and Firestore Database**:  
+   - Navigate to the **Authentication** section and enable the authentication method you want (e.g., Google Sign-In).  
+   - Go to the **Firestore Database** section and set up a Firestore database in either test or production mode.
+
+3. **Obtain Firebase Configuration Details**:  
+   - In your Firebase project settings, locate the configuration details (API key, Auth domain, Project ID, etc.).
+
+4. **Add Firebase Configuration to a `.env` File**:  
+   Create a `.env` file in the root of your project and include the following Firebase configuration:
+
+   ```env
+   REACT_APP_FIREBASE_API_KEY=<your-api-key>
+   REACT_APP_FIREBASE_AUTH_DOMAIN=<your-auth-domain>
+   REACT_APP_FIREBASE_PROJECT_ID=<your-project-id>
+   REACT_APP_FIREBASE_STORAGE_BUCKET=<your-storage-bucket>
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your-sender-id>
+   REACT_APP_FIREBASE_APP_ID=<your-app-id>
+
 
 4. Start the development server:
   ```bash
