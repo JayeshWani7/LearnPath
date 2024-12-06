@@ -39,7 +39,7 @@ const App = () => {
                 <ExperienceChatbot setLevelOfExperience={setLevelOfExperience} />
               )}
             </div>
-            <LearningPathGenerator isAuthenticated={isAuthenticated} user={user} />
+            <LearningPathGenerator isAuthenticated={isAuthenticated} user={user} initialExperience={levelOfExperience} />
           </div>
         </section>
       </main>
